@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title></title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+  <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=27c1743e71114abd3d46f3b9e0526285&callback=my_init"></script> 
+  <link href="../../../../common/css/hwh5.css?v=<%= htmlWebpackPlugin.options.version %>" rel="stylesheet" />
+</head>
+
+<body>
+  <div id="root"></div>
+  <%= htmlWebpackPlugin.options.vconsole === true ? '<script type="text/javascript" src="../../../../common/js/vconsole.js"></script>' : '' %>
+  <script type="text/javascript" src="../js/es6.polyfill.js"></script>
+  <script type="text/javascript" src="../../../../common/js/hwh5.js?v=<%= htmlWebpackPlugin.options.version %>"></script>
+  <script src="../js/hwh5.compatible.js"></script>
+  <script type="text/javascript" src="../js/vendors.dll.js"></script>
+</body>
+<script>
+  document.body.addEventListener('touchstart', function () { });
+   //JSAPI回调入口
+   function my_init() {
+        //其他逻辑
+  }
+</script>
+</html>

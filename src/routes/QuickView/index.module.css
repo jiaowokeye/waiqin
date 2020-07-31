@@ -1,0 +1,56 @@
+.header{
+    overflow-x: auto;
+    background-color: #fff;
+}
+.title{
+  color:#333;
+}
+.navBar{
+    background-color: #fff;
+    color:#333;
+}
+.userinfo{
+    text-align: center;
+    margin:10px;
+    font-size:14px;
+    color:#333333;
+    float: left;
+    width: 50px;
+  }
+  .userinfo p{
+    width: 56px;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    -o-text-overflow:ellipsis;
+    overflow: hidden;
+  }
+  .userHeader{
+    width: 45px;
+    height:45px;
+    border-radius: 50%;
+  }
+  .userHeader1{
+    width: 42px!important;
+    height:42px!important;
+    border-radius: 50%;
+  }
+  .checked{
+    background:rgba(213,230,238,1);
+    border-radius:5px;
+  }
+  .subHeader{
+    height: 65px;
+    margin:10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: #fff;
+    box-shadow:0px 1px 7px 0px rgba(49,49,49,0.13);
+  }
+  .subHeader>div{
+    flex:1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 46px;
+  }

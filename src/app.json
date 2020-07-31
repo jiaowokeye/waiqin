@@ -1,0 +1,22 @@
+{
+  "pages": {
+    "./Fieldwork/index": "/",
+    "./Map/index":"/map/",
+    "./SelectCustomer/index":"/selectCustomer/",
+    "./SelectContact/index":"/SelectContact/",
+    "./AddCustomer/index":"/addCustomer/",
+    "./AddContent/index":"/addContent/",
+    "./ChooseUser/index":"/chooseUser/",
+    "./ChooseGroup/index":"/chooseGroup/",
+    "./ChooseDate/index":"/chooseDate/",
+    "./AddPlan/index":"/addPlan/",
+    "./VisitLog/index":"/visitLog/",
+    "./VisitLogReply/index":"/visitLogReply/",
+    "./VisitLogTime/index":"/visitLogTime/",
+    "./VisitLogType/index":"/visitLogType/",
+    "./VisitLogUser/index":"/visitLogUser/",
+    "./Plan/index":"/plan/",
+    "./QuickView/index":"/quickView/",
+    "./Filter/index":"/filter/"
+  }
+}
