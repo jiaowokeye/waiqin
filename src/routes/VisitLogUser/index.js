@@ -1,18 +1,28 @@
 import React, { useState,useEffect } from 'react';
 import {getInfoByUser} from './../../servers/comp';
+import {List } from 'antd-mobile';
+import moment from 'moment';
 import * as css from './index.module.css';
+let time1 = null;
+const { Item } = List;
 function VisitLog(props) {
     const [list,setList] = useState([]);
+    const [user,setUser] = useState(null);
     useEffect(()=>{
-        getProgressListData();
+        const { history } = props;
+        if (history.location.state) {
+            console.log(history.location.state.data);
+            HWH5.navTitle({ title: '拜访记录：'+history.location.state.data.name });
+            setUser(history.location.state.data);
+        }
     },[])
     
     function getProgressListData(){
         getInfoByUser({
             get_type: 2,
             sort_type: 1,
-            // user_id: chooseUser ? chooseUser.user_id : -1,
-            // date_str: moment().format('YYYY-MM-DD'),
+            user_id: user ? user.user_id : -1,
+            date_str: moment().format('YYYY-MM-DD'),
             currentPage: 1,
             info: 1
         }).then((res) => {
@@ -20,42 +30,51 @@ function VisitLog(props) {
             setList(res.data ? res.data : []);
         });
     }
+    useEffect(() => {
+        HWH5.showLoading();
+        if (time1) {
+            clearTimeout(time1);
+        }
+        time1 = setTimeout(() => {
+            getProgressListData();
+        }, 1000);
+    }, [user])
     return <div>
         {
             list.map((e, i) => {
                 return <List key={i} renderHeader={() => <div>
-                    {e.plan_date}
+                    {e.date_info}
                 </div>} className="my-list">
                     <Item>
                         <div className={css.itemTitle}>
                             <div>
                                 {
-                                    e.visitUser.extInfo.photo ? <img className={css.headerPhoto} src={e.visitUser.extInfo.photo} /> : <i className="icon-nav icon-nav-headPortrait"></i>
+                                    user.extInfo.photo ? <img className={css.headerPhoto} src={user.extInfo.photo} /> : <i className="icon-nav icon-nav-headPortrait"></i>
                                 }
                                 {
-                                    e.visitUser.name
+                                    user.name
                                 }
                                 {
-                                    e.visitUser.title
+                                    user.title
                                 }
                             </div>
+                           
                             <div>
-                                快览
-                </div>
-                            <div>
-                                {e.reply_count}
+                                {e.visit_list.length}
                             </div>
                         </div>
 
                     </Item>
-                    <Item arrow="empty" className="spe" wrap>
-                        {
-                            e.customer_name
-                        }
-                        {
-                            e.checkin_date
-                        }
-                    </Item>
+                    {
+                        e.visit_list.map((el,il)=>{
+                            return  <Item arrow="empty" key={il} className="spe" wrap>
+                            {
+                                el.customer_name
+                            }
+                        </Item>
+                        })
+                    }
+                   
                 </List>
             })
         }

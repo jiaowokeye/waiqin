@@ -623,9 +623,9 @@ rc-pagination@~2.4.1:
     classnames "^2.2.1"
 
 rc-picker@~1.15.0:
-  version "1.15.0"
-  resolved "https://registry.yarnpkg.com/rc-picker/-/rc-picker-1.15.0.tgz#489b2ba83fc53c4f95b72c0593fdfea2afe8bce5"
-  integrity sha512-iGFLk/ny+odwxRLdgbW8X8jz4ZyfZVDhokUuU1oJGDJRZ3cpAKjtqZ9I7JyeTY2dpfemZBOWV6q4/Mkbuomk1g==
+  version "1.15.1"
+  resolved "https://registry.yarnpkg.com/rc-picker/-/rc-picker-1.15.1.tgz#b0d647f3827468f844bc95c9255436ea787d26ce"
+  integrity sha512-YW6I91R1rMDTKpWY2yYjUk3mX4ttk7l8dx5fuojGBj86TGPj0R5vh+wFoRNzOeA4qAHcRzGWGPP60HFnoxL1TA==
   dependencies:
     "@babel/runtime" "^7.10.1"
     classnames "^2.2.1"

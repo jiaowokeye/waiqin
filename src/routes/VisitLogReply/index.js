@@ -1,21 +1,30 @@
 import React, { useState,useEffect } from 'react';
 import {getVisitList} from './../../servers/comp';
-import * as css from './index.module.css';
+import {VisitDetail} from './../../components/visitDetail/index'
 function VisitLog(props) {
     const [list,setList] = useState([]);
     useEffect(()=>{
         getProgressListData();
     },[])
-    
+    useEffect(()=>{
+        const { history } = props;
+        if (history.location.state) {
+            console.log(history.location.state.data);
+            HWH5.navTitle({ title: '拜访记录：有新互动'});
+        }
+        getProgressListData();
+    },[])
     function getProgressListData(){
         getVisitList({
             visit_user_id: -1,
-            // checkin_date: date,
             sum_duration_num_type: 3,
             extendInfostr: '0,1,3,4,5,6,7,8,9,10,11,12,13',
             currentPage: 1,
             visit_type: -1,
-            isread: 0
+            isread: 0,
+            customer_id:0,
+            pageSize:100,
+            transfer_type:4
         }).then((res) => {
             HWH5.hideLoading();
             setList(res.data.list.paginationData ? res.data.list.paginationData : []);
@@ -24,40 +33,7 @@ function VisitLog(props) {
     return <div>
         {
             list.map((e, i) => {
-                return <List key={i} renderHeader={() => <div>
-                    {e.plan_date}
-                </div>} className="my-list">
-                    <Item>
-                        <div className={css.itemTitle}>
-                            <div>
-                                {
-                                    e.visitUser.extInfo.photo ? <img className={css.headerPhoto} src={e.visitUser.extInfo.photo} /> : <i className="icon-nav icon-nav-headPortrait"></i>
-                                }
-                                {
-                                    e.visitUser.name
-                                }
-                                {
-                                    e.visitUser.title
-                                }
-                            </div>
-                            <div>
-                                快览
-                </div>
-                            <div>
-                                {e.reply_count}
-                            </div>
-                        </div>
-
-                    </Item>
-                    <Item arrow="empty" className="spe" wrap>
-                        {
-                            e.customer_name
-                        }
-                        {
-                            e.checkin_date
-                        }
-                    </Item>
-                </List>
+                return <VisitDetail {...props} data={e} key={i}/>
             })
         }
         {

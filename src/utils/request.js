@@ -52,6 +52,7 @@ async function Request(url, params){
                             reject({});
                             return
                         case 0:
+                        case 3:
                             Toast.fail(reply.message, 1);
                             reject({});
                             return 

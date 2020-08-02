@@ -1,0 +1,39 @@
+.page{
+
+}
+.cells{
+    font-size: 12px;
+}
+.address{
+    text-align: center;
+    font-size: 12px;
+}
+.list_left{
+    font-size: 12px;
+    margin-right: 20px;
+}
+.address_content{
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+}
+.address_content_center{
+    width: 70%;
+    margin:0 10px;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+}
+.am-list-item .am-list-line .am-list-content{
+    font-size: 12px;
+}
+.amItem{
+    font-size: 12px!important;
+}
+.amItem .am-list-content{
+    font-size: 12px!important;
+}
+.itemtextarea{
+    font-size: 12px;
+    padding-top: 17px;
+}

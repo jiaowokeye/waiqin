@@ -54,3 +54,48 @@
     align-items: center;
     height: 46px;
   }
+                            
+  .dateTimePicker{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding-right: 15px;
+    background: url('./down.png') no-repeat right center;
+    background-size: 10px;
+    text-align: center;
+  }
+  .item{
+    color:red;
+  }
+  .item .am-list-extra{
+    display: none!important;
+  }
+  .itemContent{
+    height: 35px;
+    margin:10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  .itemContent>div{
+    flex:1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 46px;
+
+  }
+  .itemWrap{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin:10px;
+  }
+  .itemDate{
+    width: 80px;
+
+  }
+  .itemContent{
+    flex:1;
+  }

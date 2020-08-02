@@ -35,6 +35,15 @@ class ChooseGroup extends React.Component{
                     }
                 })
                 break;
+            case 3://快览
+                history.push({
+                    pathname: '/quickView/',
+                    state:{
+                        menuType:'3',
+                        data:data
+                    }
+                })
+                break;
         }
     }
     render(){

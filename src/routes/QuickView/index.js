@@ -1,124 +1,179 @@
-import React,{useEffect,useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import * as css from './index.module.css';
-import { DatePicker ,NavBar } from 'antd-mobile';
+import { DatePicker, NavBar, List } from 'antd-mobile';
 import moment from 'moment';
-import {getUserGroupInfo,getVisitList} from './../../servers/comp'
-function QuickView(props){
-    const [list,setList] = useState([]);
-    const [title,setTitle] = useState('');
-    const [checkedIndex,setCheckedIndex] = useState(0);
-    const [date,setDate] = useState(moment().format('YYYY-MM'));
-    const [groupId,setGroupId] = useState(0);
-    const [visitDetail,setvisitDetail] = useState(null);
-    useEffect(()=>{
+import { getUserGroupInfo, queryVisitHead } from './../../servers/comp';
+function QuickView(props) {
+    const [list, setList] = useState([]);
+    const [title, setTitle] = useState('');
+    const [checkedIndex, setCheckedIndex] = useState(0);
+    const [date, setDate] = useState(moment().format('YYYY-MM'));
+    const [groupId, setGroupId] = useState(0);
+    const [visitDetail, setvisitDetail] = useState(null);
+    useEffect(() => {
         HWH5.navTitle({ title: '快览' });
-        console.log(window.chooseGroup);
-        if(window.chooseGroup){
-            setGroupId(window.chooseGroup.groupId);
-            setTitle(window.chooseGroup.groupname)
+        const { history } = props;
+        if (history.location.state) {
+            setGroupId(history.location.state.data.groupId);
+            setTitle(history.location.state.data.groupname);
         }
-        
-      },[1])
-    useEffect(()=>{
+    }, [1])
+    useEffect(() => {
         getProgressListData();
-    },[checkedIndex,list])
-    useEffect(()=>{
-        setTimeout(()=>{
+    }, [checkedIndex, list,date])
+    useEffect(() => {
+        setTimeout(() => {
             getUser();
-        },1000)
-    },[groupId])
-    function getProgressListData(){
-        if(list&&list.length>0){
+        }, 1000)
+    }, [groupId])
+    function getProgressListData() {
+        if (list && list.length > 0) {
             HWH5.showLoading();
-            getVisitList({
+            queryVisitHead({
                 visit_user_id: list[checkedIndex]['user_id'],
-                // checkin_month: date,
-                sum_duration_num_type:3 ,
-                extendInfostr: '0,1,3,4,5,6,7,8,9,10,11,12,13',
-                currentPage: 1,
-                is_join_location: 1,
-                visit_type:-1,
-                // isread:isread
-            }).then((res)=>{
+                start_date: date + '-01',
+                end_date: date + '-31',
+                day_count: 1
+            }).then((res) => {
                 HWH5.hideLoading();
-                setvisitDetail(res.data);
+                const data = res.data;
+                const date_count = data.date_count;
+                const list = [];
+                for (let i in date_count) {
+                    if (date_count[i]['visitcount']) {
+                        list.push({
+                            ...date_count[i],
+                            ...{
+                                'date': i
+                            }
+                        })
+                    }
+                }
+                data['list'] = list;
+                console.log(data);
+                setvisitDetail(data);
             });
         }
-        
-    }
-    function RightClick(){
+
+    } 
+    function RightClick() {
         const { history } = props;
         history.push({
             pathname: '/chooseGroup/',
-            state:{
-                stype:30
+            state: {
+                stype: 30,
+                type: 3
             }
         })
     }
-    function getUser(){
+    function getUser() {
         getUserGroupInfo({
             group_id: groupId,
             ismine: 1,
             member_type: -1,
             isplat: 0
-        }).then((res)=>{
+        }).then((res) => {
             setList(res.data.compUserList);
             setCheckedIndex(0)
+        })
+    }
+    function toDetail(date){
+        const user_id =  list[checkedIndex]['user_id'];
+        const name =  list[checkedIndex]['name'];
+        const { history } = props;
+        history.push({
+            pathname: '/visitLogDateUser/',
+            state:{
+               date:date,
+               user_id:user_id,
+               name:name
+            }
         })
     }
     return <div>
         <NavBar
             className={css.navBar}
             rightContent={[
-                <i class="icon-nav icon-nav-morePress" onClick={()=>RightClick()}></i>
+                <i class="icon-nav icon-nav-morePress" onClick={() => RightClick()}></i>
             ]}
         ><span className={css.title}>{title}</span></NavBar>
-         <div className={css.header} style={{ overflowX: 'auto' }}>
+        <div className={css.header} style={{ overflowX: 'auto' }}>
             <ul style={{ width: +list.length * 80 + 'px' }}>
                 {
-                list.map((el, il) => {
-                    return <li onClick={()=>setCheckedIndex(il)} className={css.userinfo+' '+(il===checkedIndex?css.checked:'')} key={il}>
-                    <img className={css.userHeader} src={'http://welink.idaowei.com/core/view/images/colleague.png'} />
-                    <p>{el.name}</p>
-                    </li>
-                })
+                    list.map((el, il) => {
+                        return <li onClick={() => setCheckedIndex(il)} className={css.userinfo + ' ' + (il === checkedIndex ? css.checked : '')} key={il}>
+                            <img className={css.userHeader} src={'http://welink.idaowei.com/core/view/images/colleague.png'} />
+                            <p>{el.name}</p>
+                        </li>
+                    })
                 }
             </ul>
         </div>
         {
-            visitDetail&&<div className={css.subHeader}>
-            <div>
-                <DatePicker
-                    value={date}
-                    onChange={date => setDate({ date })}
-                    mode="date"
+            visitDetail && <div className={css.subHeader}>
+                <div>
+                    <DatePicker
+                        onChange={(datestr) => {
+                            console.log(datestr);
+                            setDate(moment(datestr).format('YYYY-MM'));
+                        }}
+                        mode={"month"}
                     >
-                    <div>2020年</div>
-                    <div>6月</div>
-                </DatePicker> 
-                
+                        <List.Item className="noneExtra" extra={<div></div>}>
+                            <div className={css.dateTimePicker}>
+                                <div>{moment(date).format('YYYY')}年</div>
+                                <div>{moment(date).format('MM')}月</div>
+                            </div>
+                        </List.Item>
+
+                    </DatePicker>
+                </div>
+                <div>
+                    <div>{visitDetail.onum}</div>
+                    <div>上门</div>
+                </div>
+                <div>
+                    <div>{visitDetail.pnum}</div>
+                    <div>电话</div>
+                </div>
+                <div>
+                    <div>{visitDetail.vnum}</div>
+                    <div>约访</div>
+                </div>
             </div>
-            <div>
-                <div>{visitDetail.info.onum}</div>
-                <div>上门</div>
-            </div>
-            <div>
-                <div>{visitDetail.info.pnum}</div>
-                <div>电话</div>
-            </div>
-            <div>
-                <div>{visitDetail.info.vnum}</div>
-                <div>约访</div>
-            </div>
-        </div>
         }
-        
+
         {
-             !visitDetail?<div style={{textAlign:'center',paddingTop:'100px'}}>暂无拜访信息</div>:<div></div>
+            !visitDetail||visitDetail.list.length===0 ? <div style={{ textAlign: 'center', paddingTop: '100px' }}>暂无拜访信息</div> : <div></div>
         }
         {
-            visitDetail&&visitDetail.list.paginationData&&<div className={css.date_wrap}>
-                
+            visitDetail && visitDetail.list && <div className='smallExtra'>
+                {
+                    visitDetail.list.map((e, i) => {
+                        return <div className={css.itemWrap} onClick={()=>toDetail(e.date)}>
+                            <div className={css.itemDate}>
+                                {e.date}
+                            </div>
+                            <div className={css.itemContent}>
+                                <div>
+                                    <div>{e.onum}</div>
+                                    <div>上门</div>
+                                </div>
+                                <div>
+                                    <div>{e.pnum}</div>
+                                    <div>电话</div>
+                                </div>
+                                <div>
+                                    <div>{e.vnum}</div>
+                                    <div>约访</div>
+                                </div>
+                            </div>
+                            <div>
+                                >
+                            </div>
+                        </div>
+                    })
+                }
             </div>
         }
     </div>

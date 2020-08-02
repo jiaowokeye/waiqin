@@ -6,6 +6,7 @@ function Filter(props) {
   const [type, setType] = useState(1);
   useEffect(() => {
     const { history } = props;
+    HWH5.navTitle({ title: '筛选'});
     if(history.location.state){
       setType(history.location.state.type);
     }
@@ -116,7 +117,7 @@ function Filter(props) {
             <List className="my-list">
               <Item onClick={()=>click(7,1)} extra={<i className="icon-16 icon-16-arrowRight"></i>}>上门</Item>
               <Item onClick={()=>click(7,2)} extra={<i className="icon-16 icon-16-arrowRight"></i>}>电话</Item>
-              <Item onClick={()=>click(7.3)} extra={<i className="icon-16 icon-16-arrowRight"></i>}>约访</Item>
+              <Item onClick={()=>click(7,3)} extra={<i className="icon-16 icon-16-arrowRight"></i>}>约访</Item>
             </List>
           </Accordion.Panel>
         </Accordion>

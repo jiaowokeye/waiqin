@@ -32,6 +32,9 @@ function AddPlan(props) {
         window.addPlanData = addPlanData;
         history.push({
             pathname: '/chooseUser/',
+            state:{
+              type:3
+            }
         })
     }
      // 跳转选客户

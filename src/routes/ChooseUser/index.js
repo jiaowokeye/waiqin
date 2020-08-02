@@ -35,6 +35,16 @@ class ChooseGroup extends React.Component{
                     }
                 })
                 break;
+            case 3://添加计划
+                window.chooseUser = data;
+                history.push({
+                    pathname: '/addPlan/',
+                    state:{
+                        menuType:'4',
+                        data:data
+                    }
+                })
+                break;
         }
     }
     render(){

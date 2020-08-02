@@ -1,0 +1,38 @@
+.replyWrap{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.replyLeft{
+    width: 40px;
+}
+.replyContent{
+    flex:1;
+}
+.replyRight{
+    width: 100px;
+}
+
+.tabbar{
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding:0 20px;
+    background-color: #fff;
+}
+.replyInput{
+    flex:1
+}
+.input{
+    border:1px solid #ddd;
+    padding-left: 10px;
+}
+.replyBtn{
+    width: 40px;
+    text-align: center;
+    color:blue;
+}

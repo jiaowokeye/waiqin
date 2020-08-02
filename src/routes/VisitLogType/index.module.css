@@ -16,3 +16,9 @@
 .title{
     color:#333;
 }
+.headerInfo{
+    display: flex;
+    flex-direction: row;
+    padding:10px;
+    background-color: #ececec;
+}

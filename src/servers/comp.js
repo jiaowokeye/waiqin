@@ -59,3 +59,29 @@ export async function addPlan(params) {
 export async function getUserGroupInfo(params) {
     return Request('comp/group.do?getUserGroupInfo', params);
 }
+
+
+// 结束拜访
+export async function checkout(params) {
+    return Request('comp/customer/visit.do?checkout', params);
+}
+//comp/customer/visitparts.do?list
+export async function visitpartsList() {
+    return Request('comp/customer/visitparts.do?list');
+}
+
+// 互动列表
+export async function replyList(params) {
+    return Request('comp/reply.do?list',params);
+}
+
+
+// 互动添加
+export async function replyAdd(params) {
+    return Request('comp/reply.do?add',params);
+}
+
+// 拜访头
+export async function queryVisitHead(params) {
+    return Request('comp/customer/visit.do?queryVisitHead',params);
+}

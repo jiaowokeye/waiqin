@@ -3,11 +3,12 @@ import * as css from './index.module.css';
 import { NavBar, List } from 'antd-mobile';
 import { getManagerInfo } from './../../servers/comp'
 import Tab from './../../components/tabNav';
+import moment from 'moment';
 const { Item } = List;
 let time1 = null;
 
 function VisitLog(props) {
-    const [date, setDate] = useState('');
+    const [date, setDate] = useState(moment().format('YYYY-MM-DD'));
     const [menuType, setMenuType] = useState('2');
     const [chooseGroup, setChooseGroup] = useState(null);
     const [list, setList] = useState([]);
@@ -52,11 +53,11 @@ function VisitLog(props) {
         }, 1000);
     }, [date, menuType, setChooseGroup])
     useEffect(() => {
-        const menuType = window.menuType ? window.menuType : '2';
+        
         const { history } = props;
         if (history.location.state) {
             setMenuType(history.location.state.menuType);
-            switch (menuType) {
+            switch (history.location.state.menuType) {
                 case "2":
                     setDate(history.location.state.data);
                     break;
@@ -80,6 +81,19 @@ function VisitLog(props) {
         const { history } = props;
         history.push({
             pathname: '/quickView/',
+        })
+    }
+    function toDetail(e){
+        const user_id =  e['user_id'];
+        const name =  e['name'];
+        const { history } = props;
+        history.push({
+            pathname: '/visitLogDateUser/',
+            state:{
+               date:date,
+               user_id:user_id,
+               name:name
+            }
         })
     }
     return <div>
@@ -109,7 +123,7 @@ function VisitLog(props) {
                     <div>
                         快览
                     </div>
-                    <div>
+                    <div onClick={()=>toDetail(e)}>
                         {e.visitList.length}
                     </div>
                 </div>} className="my-list">

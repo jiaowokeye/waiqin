@@ -147,3 +147,12 @@ img {
   text-align: right!important;
   flex:1;
 }
+
+
+.am-list-item.noneExtra .am-list-line .am-list-extra{
+  display: none!important;
+}
+
+.am-list-item.smallExtra .am-list-line .am-list-extra{
+  flex:1!important
+}
