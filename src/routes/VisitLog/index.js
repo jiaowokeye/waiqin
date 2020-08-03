@@ -77,10 +77,17 @@ function VisitLog(props) {
             }
         })
     }
-    function ToQuickView() {
+    function ToQuickView(userId) { 
         const { history } = props;
         history.push({
             pathname: '/quickView/',
+            state:{
+                data:{
+                    groupId:chooseGroup?chooseGroup.groupId:'',
+                    groupname:chooseGroup?chooseGroup.groupname:'',
+                },
+                userId:userId?userId:-1
+            }
         })
     }
     function toDetail(e){
@@ -99,7 +106,7 @@ function VisitLog(props) {
     return <div>
         <NavBar
             mode="light"
-            icon={<i onClick={() => ToQuickView()} className="icon-nav icon-nav-readingHistory"></i>}
+            leftContent={<i onClick={() => ToQuickView()} className="icon-nav icon-nav-readingHistory"></i>}
             onLeftClick={() => LeftClick()}
             rightContent={[
                 <i className="icon-nav icon-nav-morePress" onClick={() => RightClick()}></i>
@@ -120,7 +127,7 @@ function VisitLog(props) {
                             e.title
                         }
                     </div>
-                    <div>
+                    <div onClick={()=>ToQuickView(e.user_id)}>
                         快览
                     </div>
                     <div onClick={()=>toDetail(e)}>

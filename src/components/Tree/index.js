@@ -13,7 +13,7 @@ class UserTree extends React.Component{
         }
     }
     componentDidMount(){
-        const {include_type=-1,stype=0} = this.props;
+        const {include_type=-1,stype=30} = this.props;
         getTree({
             member_type: -1,
             group_id: 0,

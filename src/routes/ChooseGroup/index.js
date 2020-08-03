@@ -39,7 +39,6 @@ class ChooseGroup extends React.Component{
                 history.push({
                     pathname: '/quickView/',
                     state:{
-                        menuType:'3',
                         data:data
                     }
                 })
@@ -47,8 +46,7 @@ class ChooseGroup extends React.Component{
         }
     }
     render(){
-        const stype = this.props.history.location.state&&this.props.history.location.state.stype?this.props.history.location.state.stype:0
-       return <UserTree include_type={0} stype={stype} selectCallBack={this.selectCallBack}/>
+       return <UserTree include_type={0} stype={30} selectCallBack={this.selectCallBack}/>
     }    
 }
 

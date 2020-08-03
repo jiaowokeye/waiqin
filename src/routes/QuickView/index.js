@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import * as css from './index.module.css';
 import { DatePicker, NavBar, List } from 'antd-mobile';
 import moment from 'moment';
-import { getUserGroupInfo, queryVisitHead } from './../../servers/comp';
+import { getUserGroupInfo, queryVisitHead,getRelation} from './../../servers/comp';
+let user_id = '';
 function QuickView(props) {
     const [list, setList] = useState([]);
     const [title, setTitle] = useState('');
@@ -14,8 +15,19 @@ function QuickView(props) {
         HWH5.navTitle({ title: '快览' });
         const { history } = props;
         if (history.location.state) {
-            setGroupId(history.location.state.data.groupId);
-            setTitle(history.location.state.data.groupname);
+            if(history.location.state.data.groupId){
+                setGroupId(history.location.state.data.groupId);
+                setTitle(history.location.state.data.groupname);
+                user_id = history.location.state.data.userId;
+            }else{
+                getRelation({
+                    user_id:window.userId
+                }).then((res)=>{
+                    const data = res.data;
+                    setGroupId(data[0].group_id);
+                    setTitle(data[0].groupname);
+                })
+            }
         }
     }, [1])
     useEffect(() => {
@@ -73,8 +85,19 @@ function QuickView(props) {
             member_type: -1,
             isplat: 0
         }).then((res) => {
+            if(user_id){
+                let index = 0;
+                res.data.compUserList.map((e,i)=>{
+                    if(e.user_id===user_id){
+                        index = i;
+                    }
+                })
+                setCheckedIndex(index);
+                index = 0;
+            }else{
+                setCheckedIndex(0);
+            }
             setList(res.data.compUserList);
-            setCheckedIndex(0)
         })
     }
     function toDetail(date){
@@ -107,10 +130,14 @@ function QuickView(props) {
                         </li>
                     })
                 }
+               
             </ul>
+            {
+                list.length===0&&<div style={{textAlign:"center"}}>该部门下暂无人员</div>
+            }
         </div>
         {
-            visitDetail && <div className={css.subHeader}>
+            visitDetail&&list.length>0&& <div className={css.subHeader}>
                 <div>
                     <DatePicker
                         onChange={(datestr) => {
@@ -144,7 +171,7 @@ function QuickView(props) {
         }
 
         {
-            !visitDetail||visitDetail.list.length===0 ? <div style={{ textAlign: 'center', paddingTop: '100px' }}>暂无拜访信息</div> : <div></div>
+            !visitDetail||visitDetail.list.length===0&&list.length>0 ? <div style={{ textAlign: 'center', paddingTop: '100px' }}>暂无拜访信息</div> : <div></div>
         }
         {
             visitDetail && visitDetail.list && <div className='smallExtra'>

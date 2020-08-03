@@ -85,3 +85,9 @@ export async function replyAdd(params) {
 export async function queryVisitHead(params) {
     return Request('comp/customer/visit.do?queryVisitHead',params);
 }
+
+
+// 获取登录人部门
+export async function getRelation(params) {
+    return Request('comp/group.do?getRelation',params);
+}
